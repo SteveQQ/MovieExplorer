@@ -25,7 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TmdbController implements Callback<List<PopularMovies>> {
+public class TmdbController implements Callback<PopularMovies> {
 
     private static final String ENDPOINT_URL = "https://api.themoviedb.org/3/";
     private static final String TAG = TmdbController.class.getSimpleName();
@@ -75,7 +75,7 @@ public class TmdbController implements Callback<List<PopularMovies>> {
 
         calendar.add(Calendar.DAY_OF_MONTH, -30);
         String minusMonth = sdf.format(calendar.getTime());
-        Call<List<PopularMovies>> call = prepareApiCall().
+        Call<PopularMovies> call = prepareApiCall().
                                             getPopularMovies(
                                                     minusMonth,
                                                     currentDate,
@@ -86,14 +86,15 @@ public class TmdbController implements Callback<List<PopularMovies>> {
     }
 
     @Override
-    public void onResponse(Call<List<PopularMovies>> call, Response<List<PopularMovies>> response) {
+    public void onResponse(Call<PopularMovies> call, Response<PopularMovies> response) {
         Log.d(TAG, "Request Completed!");
         Log.d(TAG, response.body().toString());
     }
 
     @Override
-    public void onFailure(Call<List<PopularMovies>> call, Throwable t) {
+    public void onFailure(Call<PopularMovies> call, Throwable t) {
         Log.d(TAG, "Request Failed!");
         Log.d(TAG, call.request().url().toString());
+        Log.d(TAG, t.getMessage());
     }
 }
