@@ -10,10 +10,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
 
-public interface PopularMoviesAPI {
+public interface TmdbAPI {
     @GET("discover/movie")
     Call<PopularMovies> getPopularMovies(@Query("release_date.gte") String release_date_gte,
                                                @Query("release_date.lte") String release_date_lte,
-                                               @Query("page") int page,
-                                               @Query("api_key") String api_key);
+                                               @Query("page") int page);
 }
