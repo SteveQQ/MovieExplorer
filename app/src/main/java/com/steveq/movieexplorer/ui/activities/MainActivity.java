@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.api.TmdbManager;
-import com.steveq.movieexplorer.api.TmdbService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TmdbManager mTmdbManager;
     @BindView(R.id.callButton) Button callButton;
+    @BindView(R.id.call2Button) Button call2Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.callButton) void makeCall(){
+        mTmdbManager.getNewestMovies();
+    }
+
+    @OnClick(R.id.call2Button) void makeCall2(){
         mTmdbManager.getPopularMovies();
     }
 }
