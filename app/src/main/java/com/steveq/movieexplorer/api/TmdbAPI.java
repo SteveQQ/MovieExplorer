@@ -1,6 +1,7 @@
 package com.steveq.movieexplorer.api;
 
 
+import com.steveq.movieexplorer.model.KeywordsOutput;
 import com.steveq.movieexplorer.model.MoviesOutput;
 
 import java.util.Map;
@@ -18,4 +19,10 @@ public interface TmdbAPI {
 
     @GET("discover/movie")
     Call<MoviesOutput> getPopularMovies(@QueryMap Map<String, String> params);
+
+    @GET("discover/movie")
+    Call<MoviesOutput> getFilteredMovies(@QueryMap Map<String, String> params);
+
+    @GET("search/keyword")
+    Call<KeywordsOutput> getAvailableKeywords(@Query("query") String query);
 }

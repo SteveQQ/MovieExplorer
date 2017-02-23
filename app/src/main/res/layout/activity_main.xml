@@ -23,4 +23,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CALL2"/>
+
+    <Button
+        android:id="@+id/call3Button"
+        android:layout_below="@+id/call2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CALL3"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/keywordsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/call3Button"
+        android:completionThreshold="2"/>
 </RelativeLayout>
