@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.api.KeywordsCallback;
@@ -30,12 +32,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private TmdbManager mTmdbManager;
-    private ArrayList<String> selectedKeywords;
+    private String selectedKeywords = "";
 
     @BindView(R.id.callButton) Button callButton;
     @BindView(R.id.call2Button) Button call2Button;
     @BindView(R.id.call3Button) Button call3Button;
     @BindView(R.id.keywordsEditText) AutoCompleteTextView keywordsEditText;
+    @BindView(R.id.keywordsTextView) TextView keywordsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +46,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mTmdbManager = new TmdbManager(this);
-        selectedKeywords = new ArrayList<>();
 
         keywordsEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "selected: " + position);
-                String[] keywords = keywordsEditText.getText().toString().split(",");
-                selectedKeywords.addAll(Arrays.asList(keywords));
+                StringBuilder builder = new StringBuilder();
+                builder.append(selectedKeywords);
+                builder.append(keywordsEditText.getText().toString());
+                builder.append(",");
+                selectedKeywords = builder.toString();
+                keywordsTextView.setText(selectedKeywords);
+                keywordsEditText.setText("");
             }
         });
     }
@@ -65,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
 
     @OnClick(R.id.call3Button) void makeCall3(){
         String val = "Action";
-        mTmdbManager.getFilteredParams(2017, Genre.valueOf(val.toUpperCase()), selectedKeywords.toArray(new String[]{}));
+        mTmdbManager.getFilteredParams(2017, Genre.valueOf(val.toUpperCase()), selectedKeywords.split(","));
     }
 
     @OnTextChanged(R.id.keywordsEditText) void completion(){
