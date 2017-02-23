@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
             keyStrings.add(k.getName());
         }
         String[] keywords = keyStrings.toArray(new String[]{});
-        keywordsEditText.setAdapter(
-                new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, keywords)
-        );
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, keywords);
+        keywordsEditText.setAdapter(adapter);
+        keywordsEditText.showDropDown();
     }
 }
