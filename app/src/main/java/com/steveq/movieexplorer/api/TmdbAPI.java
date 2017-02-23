@@ -25,4 +25,5 @@ public interface TmdbAPI {
 
     @GET("search/keyword")
     Call<KeywordsOutput> getAvailableKeywords(@Query("query") String query);
+
 }

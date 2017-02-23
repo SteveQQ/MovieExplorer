@@ -1,12 +1,13 @@
 package com.steveq.movieexplorer.api;
 
 
-import android.content.Context;
-import android.util.Log;
+import android.app.Activity;
 
 import com.steveq.movieexplorer.model.Genre;
+import com.steveq.movieexplorer.model.Keyword;
 import com.steveq.movieexplorer.model.KeywordsOutput;
 import com.steveq.movieexplorer.model.MoviesOutput;
+import com.steveq.movieexplorer.ui.activities.MainActivityView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,18 +16,16 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TmdbManager {
 
 
     private static final String TAG = TmdbManager.class.getSimpleName();
-    private Context mContext;
+    private Activity mActivity;
     private TmdbService mService;
 
-    public TmdbManager(Context context) {
-        mContext = context;
+    public TmdbManager(Activity context) {
+        mActivity = context;
         mService = new TmdbService(context);
     }
 
@@ -51,7 +50,7 @@ public class TmdbManager {
         call.enqueue(MoviesCallback.getInstance());
     }
 
-    public void getFilteredParams(int year, Genre genre, List<String> keywords){
+    public void getFilteredParams(int year, Genre genre, String[] keywords){
         Map<String, String> params = new HashMap<>();
         params.put("primary_release_year", String.valueOf(year));
         params.put("with_genres", String.valueOf(genre.getId()));
@@ -66,17 +65,28 @@ public class TmdbManager {
         Call<KeywordsOutput> call = mService.getService().
                 getAvailableKeywords(str);
 
-        call.enqueue(KeywordsCallback.getInstance());
+        call.enqueue(KeywordsCallback.getInstance((MainActivityView) mActivity));
     }
 
-    private String prepareKeywords(List<String> keywords) {
+    private String prepareKeywords(String[] keywords) {
         final StringBuilder builder = new StringBuilder();
         for(String s : keywords){
-            builder.append(s);
-            builder.append(",");
+            if(getKeywordId(s) >= 0) {
+                builder.append(getKeywordId(s));
+                builder.append(",");
+            }
         }
         builder.deleteCharAt(builder.length()-1);
         return builder.toString();
+    }
+
+    private int getKeywordId(String s) {
+        for(Keyword k : KeywordsCallback.currentKeywordsOutput.results){
+            if(k.getName().equals(s)){
+                return k.getId();
+            }
+        }
+        return -1;
     }
 
     private String getCurrentDate(){
