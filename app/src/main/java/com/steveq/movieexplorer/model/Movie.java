@@ -1,23 +1,22 @@
 package com.steveq.movieexplorer.model;
 
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.Date;
-
+@DatabaseTable(tableName = "wishlist")
 public class Movie {
-    String poster_path;
-    String overview;
-    Date release_date;
+    @DatabaseField(id = true)
     int id;
+    @DatabaseField
+    String poster_path;
+    @DatabaseField
+    String overview;
+    @DatabaseField
+    Date release_date;
+    @DatabaseField
     String title;
-    boolean wish;
-
-    public boolean isWish() {
-        return wish;
-    }
-
-    public void setWish(boolean wish) {
-        this.wish = wish;
-    }
 
     public String getPoster_path() {
         return poster_path;
