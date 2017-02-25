@@ -9,6 +9,15 @@ public class Movie {
     Date release_date;
     int id;
     String title;
+    boolean wish;
+
+    public boolean isWish() {
+        return wish;
+    }
+
+    public void setWish(boolean wish) {
+        this.wish = wish;
+    }
 
     public String getPoster_path() {
         return poster_path;
