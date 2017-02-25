@@ -1,54 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.steveq.movieexplorer.ui.activities.MainActivity">
 
-    <Button
-        android:id="@+id/callButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CALL"/>
-
-    <Button
-        android:id="@+id/call2Button"
-        android:layout_below="@+id/callButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CALL2"/>
-
-    <Button
-        android:id="@+id/call3Button"
-        android:layout_below="@+id/call2Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CALL3"/>
-
-    <AutoCompleteTextView
-        android:id="@+id/keywordsEditText"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/call3Button"
-        android:inputType="text"/>
-
-    <TextView
-        android:id="@+id/keywordsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/keywordsEditText"/>
-
-
-    <Button
-        android:id="@+id/call4Button"
-        android:layout_below="@+id/keywordsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CALL4"/>
-</RelativeLayout>
+        android:layout_height="match_parent"/>
+</LinearLayout>
