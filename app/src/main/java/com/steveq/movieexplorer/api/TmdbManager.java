@@ -9,12 +9,15 @@ import com.steveq.movieexplorer.model.KeywordsOutput;
 import com.steveq.movieexplorer.model.MoviesOutput;
 import com.steveq.movieexplorer.ui.activities.MainActivityView;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class TmdbManager {
@@ -66,6 +69,13 @@ public class TmdbManager {
                 getAvailableKeywords(str);
 
         call.enqueue(KeywordsCallback.getInstance((MainActivityView) mActivity));
+    }
+
+    public void getSearchedData(String str){
+        Call<ResponseBody> call = mService.getService()
+                                    .getSearchedData(str);
+
+        call.enqueue(DispatcherCallback.getInstance());
     }
 
     private String prepareKeywords(String[] keywords) {

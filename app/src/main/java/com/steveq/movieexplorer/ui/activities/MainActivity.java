@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
     @BindView(R.id.call3Button) Button call3Button;
     @BindView(R.id.keywordsEditText) AutoCompleteTextView keywordsEditText;
     @BindView(R.id.keywordsTextView) TextView keywordsTextView;
+    @BindView(R.id.call4Button) Button call4Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
     @OnClick(R.id.call3Button) void makeCall3(){
         String val = "Action";
         mTmdbManager.getFilteredParams(2017, Genre.valueOf(val.toUpperCase()), selectedKeywords.split(","));
+    }
+
+    @OnClick(R.id.call4Button) void makeCall4(){
+        String query = "godfather";
+        mTmdbManager.getSearchedData(query);
     }
 
     @OnTextChanged(R.id.keywordsEditText) void completion(){

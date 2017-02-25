@@ -4,9 +4,13 @@ package com.steveq.movieexplorer.api;
 import com.steveq.movieexplorer.model.KeywordsOutput;
 import com.steveq.movieexplorer.model.MoviesOutput;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -25,5 +29,8 @@ public interface TmdbAPI {
 
     @GET("search/keyword")
     Call<KeywordsOutput> getAvailableKeywords(@Query("query") String query);
+
+    @GET("search/multi")
+    Call<ResponseBody> getSearchedData(@Query(value="query", encoded = true) String query);
 
 }
