@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.adapters.MyPagerAdapter;
 import com.steveq.movieexplorer.api.KeywordsCallback;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
     private FragmentPagerAdapter pagerAdapter;
 
     @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.tabStrip) PagerSlidingTabStrip tabStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
+        tabStrip.setViewPager(viewPager);
 //        keywordsEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
