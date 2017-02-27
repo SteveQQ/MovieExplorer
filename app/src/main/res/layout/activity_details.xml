@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.steveq.movieexplorer.ui.activities.DetailsActivity">
+    tools:context="com.steveq.movieexplorer.ui.activities.DetailsActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,32 +15,88 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/posterImageView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/poster_description"/>
+            android:layout_weight="1"
+            android:contentDescription="@string/poster_description"
+            android:scaleType="fitCenter"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:padding="8dp"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genre"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
             <TextView
                 android:id="@+id/genreTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
             <TextView
                 android:id="@+id/ratingTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/overviewTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/overview"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <ImageButton
+                android:id="@+id/wishImageButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_bookmark_empty_vec"
+                android:contentDescription="@string/add_to_wishlist"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/overviewTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 </LinearLayout>

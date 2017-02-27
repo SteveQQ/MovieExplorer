@@ -6,4 +6,9 @@
     <string name="search_hint">Movie, Actor ...</string>
     <string name="about_option">About</string>
     <string name="poster_description">movie poster</string>
+    <string name="title">Title</string>
+    <string name="genre">Genre</string>
+    <string name="rating">Rating</string>
+    <string name="overview">Overview</string>
+    <string name="add_to_wishlist">add to wishlist</string>
 </resources>
