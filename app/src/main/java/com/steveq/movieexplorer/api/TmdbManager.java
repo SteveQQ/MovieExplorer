@@ -19,6 +19,7 @@ import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 
 public class TmdbManager {
 
@@ -32,14 +33,14 @@ public class TmdbManager {
         mService = new TmdbService(context);
     }
 
-    public void getNewestMovies(){
+    public void getNewestMovies(Callback<MoviesOutput> callback){
         Call<MoviesOutput> call = mService.getService().
                 getNewestMovies(
                         getShiftedBackDate(30),
                         getCurrentDate(),
                         1
                 );
-        call.enqueue(MoviesCallback.getInstance());
+        call.enqueue(callback);
     }
 
     public void getPopularMovies(){
