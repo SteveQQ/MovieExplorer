@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
+import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Movie;
 import com.steveq.movieexplorer.ui.fragments.ImagesGridAdapter;
@@ -44,6 +45,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         injectPoster();
         injectInfo();
+        initWishToogle();
+    }
+
+    private void initWishToogle() {
+        if(DbOperationManager.getInstance(this).isWished(theMovie.getId())){
+            wishImageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_filled_vec));
+        }
     }
 
     @OnClick(R.id.wishImageButton)
@@ -51,8 +59,10 @@ public class DetailsActivity extends AppCompatActivity {
         if(wishImageButton.getDrawable().getConstantState() ==
                 ContextCompat.getDrawable(this, R.drawable.ic_bookmark_empty_vec).getConstantState()){
             wishImageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_filled_vec));
+            DbOperationManager.getInstance(this).addWish(theMovie);
         } else {
             wishImageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_empty_vec));
+            DbOperationManager.getInstance(this).removeWish(theMovie.getId());
         }
     }
 

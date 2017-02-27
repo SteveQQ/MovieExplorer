@@ -1,7 +1,9 @@
 package com.steveq.movieexplorer.model;
 
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
@@ -21,16 +23,27 @@ public class Movie implements Serializable{
     Date release_date;
     @DatabaseField
     String title;
-    @DatabaseField
+
     List<Integer> genre_ids;
     @DatabaseField
     double vote_average;
+    @DatabaseField
+    Integer genre;
+
+    public Integer getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Integer genre) {
+        this.genre = genre;
+    }
 
     public List<Integer> getGenre_ids() {
         return genre_ids;
     }
 
     public void setGenre_ids(List<Integer> genre_ids) {
+        setGenre(genre_ids.get(0));
         this.genre_ids = genre_ids;
     }
 
