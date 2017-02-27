@@ -1,39 +1,39 @@
 package com.steveq.movieexplorer.ui.fragments;
 
 
-import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
-import com.steveq.movieexplorer.ui.activities.MainActivity;
+import com.steveq.movieexplorer.model.Movie;
+import com.steveq.movieexplorer.ui.activities.DetailsActivity;
 
 import java.util.List;
 
-import static android.widget.ImageView.ScaleType.CENTER_CROP;
-
 public class ImagesGridAdapter extends BaseAdapter {
+    public static final String SELECTED_MOVIE = "SELECTED MOVIE";
+    public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300";
     private Context mContext;
-    private final List<String> urls;
+    private final List<Movie> movies;
 
-    public ImagesGridAdapter(Context context, List<String> urls) {
+    public ImagesGridAdapter(Context context, List<Movie> urls) {
         mContext = context;
-        this.urls = urls;
+        this.movies = urls;
     }
 
     @Override
     public int getCount() {
-        return urls.size();
+        return movies.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return urls.get(position);
+        return BASE_IMAGE_URL + movies.get(position).getPoster_path();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ImagesGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if(convertView == null){
             imageView = new ImageView(mContext);
@@ -61,6 +61,15 @@ public class ImagesGridAdapter extends BaseAdapter {
                 .resize(parent.getWidth()/3, (int)((parent.getWidth()/3)*1.5))
                 .centerCrop()
                 .into(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra(SELECTED_MOVIE, movies.get(position));
+                mContext.startActivity(intent);
+            }
+        });
 
         return imageView;
     }

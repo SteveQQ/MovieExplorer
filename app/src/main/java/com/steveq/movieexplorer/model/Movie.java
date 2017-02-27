@@ -4,9 +4,13 @@ package com.steveq.movieexplorer.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @DatabaseTable(tableName = "wishlist")
-public class Movie {
+public class Movie implements Serializable{
     @DatabaseField(id = true)
     int id;
     @DatabaseField
@@ -17,6 +21,26 @@ public class Movie {
     Date release_date;
     @DatabaseField
     String title;
+    @DatabaseField
+    List<Integer> genre_ids;
+    @DatabaseField
+    double vote_average;
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
+
+    public void setGenre_ids(List<Integer> genre_ids) {
+        this.genre_ids = genre_ids;
+    }
+
+    public double getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(double vote_average) {
+        this.vote_average = vote_average;
+    }
 
     public String getPoster_path() {
         return poster_path;

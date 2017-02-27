@@ -41,7 +41,6 @@ public class TmdbService {
 
                 HttpUrl url = originalUrl.newBuilder()
                                 .addQueryParameter("api_key", mContext.getResources().getString(R.string.API_KEY))
-
                                 .build();
 
                 Request.Builder builder = original.newBuilder()

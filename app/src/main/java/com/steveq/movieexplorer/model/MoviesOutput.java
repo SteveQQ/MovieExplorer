@@ -16,5 +16,4 @@ public class MoviesOutput {
         this.results = results;
     }
 
-
 }

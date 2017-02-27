@@ -27,47 +27,11 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewestMoviesFragment extends Fragment implements Callback<MoviesOutput> {
-    private static final String TAG = NewestMoviesFragment.class.getSimpleName();
-    TmdbManager mTmdbManager;
-    public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300";
-
-    @BindView(R.id.gridView) GridView gridView;
-
-    public NewestMoviesFragment() {
-        // Required empty public constructor
-    }
-
+public class NewestMoviesFragment extends BaseFragment{
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mTmdbManager = new TmdbManager(getActivity());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_newest_movies, container, false);
-        ButterKnife.bind(this, viewGroup);
-
-        mTmdbManager.getNewestMovies(this);
-        return viewGroup;
-    }
-
-    @Override
-    public void onResponse(Call<MoviesOutput> call, Response<MoviesOutput> response) {
-        Log.d(TAG, "Request Completed!");
-        List<String> urls = new ArrayList<>();
-        for(Movie m : response.body().getResults()){
-            urls.add(BASE_IMAGE_URL + m.getPoster_path());
-        }
-        gridView.setAdapter(new ImagesGridAdapter(getContext(), urls));
-    }
-
-    @Override
-    public void onFailure(Call<MoviesOutput> call, Throwable t) {
-        Log.d(TAG, "Request Failed!");
-        Log.d(TAG, call.request().url().toString());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view =  super.onCreateView(inflater, container, savedInstanceState);
+        newestMovies();
+        return view;
     }
 }
