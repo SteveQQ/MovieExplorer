@@ -1,76 +1,94 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.steveq.movieexplorer.ui.fragments.FilterMoviesFragment"
-                android:orientation="vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
-
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/filterMoviesRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/year"/>
-        <Spinner
-            android:id="@+id/yearSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
+                android:id="@+id/mainView"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 tools:context="com.steveq.movieexplorer.ui.fragments.FilterMoviesFragment"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/genre_label"/>
-        <Spinner
-            android:id="@+id/genreSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/keywords_label"/>
         <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_width="0px"
-            android:layout_height="0px"/>
-        <AutoCompleteTextView
-            android:id="@+id/keywordsAutoComplete"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/year"/>
+            <Spinner
+                android:id="@+id/yearSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/genre_label"/>
+            <Spinner
+                android:id="@+id/genreSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/keywords_label"/>
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"/>
+            <AutoCompleteTextView
+                android:id="@+id/keywordsAutoComplete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:completionHint="keywords..."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:completionThreshold="2"
+                android:nextFocusUp="@id/keywordsAutoComplete"
+                android:nextFocusLeft="@id/keywordsAutoComplete"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/keywordsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:completionHint="keywords..."
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:completionThreshold="2"
-            android:nextFocusUp="@id/keywordsAutoComplete"
-            android:nextFocusLeft="@id/keywordsAutoComplete"/>
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/keywordsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filterFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_filter_vec"
+        app:layout_anchor="@id/mainView"
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|right|end"
+        android:layout_gravity="bottom|right"/>
+</android.support.design.widget.CoordinatorLayout>

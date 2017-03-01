@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +33,11 @@ import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Keyword;
 import com.steveq.movieexplorer.model.KeywordsOutput;
 import com.steveq.movieexplorer.model.Movie;
+import com.steveq.movieexplorer.ui.fragments.FilterMoviesFragment;
+import com.steveq.movieexplorer.ui.fragments.FilteredMoviesFragment;
 import com.steveq.movieexplorer.ui.fragments.ImagesGridAdapter;
+import com.steveq.movieexplorer.ui.fragments.NewestMoviesFragment;
+import com.steveq.movieexplorer.ui.fragments.PopularMoviesFragment;
 import com.steveq.movieexplorer.ui.fragments.WishlistFragment;
 
 import java.util.ArrayList;
@@ -50,9 +55,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
     private static final String TAG = MainActivity.class.getSimpleName();
     private TmdbManager mTmdbManager;
     private String selectedKeywords = "";
-    private FragmentPagerAdapter pagerAdapter;
+    public FragmentStatePagerAdapter pagerAdapter;
+    public static ArrayList<Fragment> fragmentsPoll = new ArrayList<>(Arrays.asList(new NewestMoviesFragment(),
+            new PopularMoviesFragment(),
+            new FilterMoviesFragment(),
+            new WishlistFragment()));
 
-    @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.viewPager) public ViewPager viewPager;
     @BindView(R.id.tabStrip) PagerSlidingTabStrip tabStrip;
     @BindView(R.id.toolbar) Toolbar toolbar;
     //@BindView(R.id.searchView) SearchView searchView;
@@ -86,13 +95,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
     }
 
     private List<Fragment> getCurrentVisible(){
-        List<Fragment> frags = getSupportFragmentManager().getFragments();
         List<Fragment> visibleFrags = new ArrayList<>();
-        if(frags != null) {
-            for (Fragment f : frags) {
-                if (f.isVisible()) {
-                    visibleFrags.add(f);
-                }
+        for (Fragment f : fragmentsPoll) {
+            if (f.isVisible()) {
+                visibleFrags.add(f);
             }
         }
         return visibleFrags;
@@ -149,5 +155,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, keywords);
 //        keywordsEditText.setAdapter(adapter);
 //        keywordsEditText.showDropDown();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(fragmentsPoll.get(2) instanceof FilteredMoviesFragment){
+            if(getCurrentVisible().get(1) instanceof FilteredMoviesFragment){
+                fragmentsPoll.set(2, new FilterMoviesFragment());
+                pagerAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 }

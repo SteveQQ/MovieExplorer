@@ -2,6 +2,7 @@ package com.steveq.movieexplorer.ui.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.steveq.movieexplorer.R;
+import com.steveq.movieexplorer.adapters.MyPagerAdapter;
 import com.steveq.movieexplorer.model.Genre;
+import com.steveq.movieexplorer.ui.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +38,7 @@ public class FilterMoviesFragment extends Fragment {
     @BindView(R.id.genreSpinner) Spinner genreSpinner;
     @BindView(R.id.keywordsAutoComplete) AutoCompleteTextView keywordsAutoComplete;
     @BindView(R.id.keywordsTextView) TextView keywordsTextView;
+    @BindView(R.id.filterFab) FloatingActionButton filterFab;
 
     public FilterMoviesFragment() {
         // Required empty public constructor
@@ -49,6 +54,12 @@ public class FilterMoviesFragment extends Fragment {
         ButterKnife.bind(this, viewGroup);
         populateSpinners();
         return viewGroup;
+    }
+
+    @OnClick(R.id.filterFab)
+    public void proceedFilter(View v){
+        MainActivity.fragmentsPoll.set(2, new FilteredMoviesFragment());
+        ((MainActivity)getActivity()).pagerAdapter.notifyDataSetChanged();
     }
 
     private void populateSpinners() {
@@ -79,17 +90,6 @@ public class FilterMoviesFragment extends Fragment {
             year--;
         }
         return results;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("FILTER", "onStart");
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("FILTER", "onResume");
     }
 
 
