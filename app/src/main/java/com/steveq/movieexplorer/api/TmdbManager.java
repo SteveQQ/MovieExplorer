@@ -54,7 +54,7 @@ public class TmdbManager {
         call.enqueue(callback);
     }
 
-    public void getFilteredParams(int year, Genre genre, String[] keywords){
+    public void getFilteredParams(int year, Genre genre, String[] keywords, Callback<MoviesOutput> callback){
         Map<String, String> params = new HashMap<>();
         params.put("primary_release_year", String.valueOf(year));
         params.put("with_genres", String.valueOf(genre.getId()));
@@ -62,7 +62,7 @@ public class TmdbManager {
 
         Call<MoviesOutput> call = mService.getService()
                                     .getFilteredMovies(params);
-        call.enqueue(MoviesCallback.getInstance());
+        call.enqueue(callback);
     }
 
     public void getAvailableKeywords(String str){

@@ -21,6 +21,7 @@ import com.steveq.movieexplorer.api.KeywordsCallback;
 import com.steveq.movieexplorer.api.TmdbManager;
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Keyword;
+import com.steveq.movieexplorer.model.MoviesOutput;
 import com.steveq.movieexplorer.ui.activities.MainActivity;
 import com.steveq.movieexplorer.ui.activities.MainActivityView;
 
@@ -32,11 +33,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilterMoviesFragment extends Fragment {
+public class FilterMoviesFragment extends Fragment implements Callback<MoviesOutput>{
 
 
     private static final String TAG = FilterMoviesFragment.class.getSimpleName();
@@ -87,9 +91,15 @@ public class FilterMoviesFragment extends Fragment {
 
     @OnClick(R.id.filterFab)
     public void proceedFilter(View v){
-        MainActivity.fragmentsPoll.set(2, new FilteredMoviesFragment());
-        ((MainActivity)getActivity()).pagerAdapter.notifyDataSetChanged();
+        mTmdbManager.getFilteredParams(
+                Integer.valueOf(yearSpinner.getSelectedItem().toString()),
+                Genre.valueOf(genreSpinner.getSelectedItem().toString()),
+                selectedKeywords.split(","),
+                this
+        );
+
     }
+
     @OnTextChanged(R.id.keywordsAutoComplete) void completion(){
         StringBuilder builder = new StringBuilder();
         builder.append(keywordsAutoComplete.getText().toString());
@@ -98,6 +108,23 @@ public class FilterMoviesFragment extends Fragment {
             mTmdbManager.getAvailableKeywords(tempStr[tempStr.length-1]);
         }
         Log.d(TAG, "completion");
+    }
+
+
+    @Override
+    public void onResponse(Call<MoviesOutput> call, Response<MoviesOutput> response) {
+        Log.d(TAG, "Request Completed!");
+
+        ((MainActivity)getActivity()).filteredMovies = response.body().getResults();
+
+        MainActivity.fragmentsPoll.set(2, new FilteredMoviesFragment());
+        ((MainActivity)getActivity()).pagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailure(Call<MoviesOutput> call, Throwable t) {
+        Log.d(TAG, "Request Failed!");
+        Log.d(TAG, call.request().url().toString());
     }
 
     public void updateAutoCompletion() {

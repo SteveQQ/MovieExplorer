@@ -64,11 +64,6 @@ public class BaseFragment extends Fragment implements Callback<MoviesOutput> {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
     public void onResponse(Call<MoviesOutput> call, Response<MoviesOutput> response) {
         Log.d(TAG, "Request Completed!");
         gridView.setAdapter(new ImagesGridAdapter(getActivity(),

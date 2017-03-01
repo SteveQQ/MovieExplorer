@@ -54,10 +54,12 @@ public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public FragmentStatePagerAdapter pagerAdapter;
-    public static ArrayList<Fragment> fragmentsPoll = new ArrayList<>(Arrays.asList(new NewestMoviesFragment(),
+    public static ArrayList<Fragment> fragmentsPoll = new ArrayList<Fragment>(Arrays.asList(new NewestMoviesFragment(),
             new PopularMoviesFragment(),
             new FilterMoviesFragment(),
             new WishlistFragment()));
+
+    public List<Movie> filteredMovies;
 
     @BindView(R.id.viewPager) public ViewPager viewPager;
     @BindView(R.id.tabStrip) PagerSlidingTabStrip tabStrip;
