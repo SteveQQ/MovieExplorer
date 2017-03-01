@@ -13,4 +13,7 @@
     <string name="add_to_wishlist">add to wishlist</string>
     <string name="unknown_genre">Unknown Genre</string>
     <string name="remove_from_wishlist">remove_wish</string>
+    <string name="year">Year</string>
+    <string name="genre_label">Genre</string>
+    <string name="keywords_label">Keywords</string>
 </resources>
