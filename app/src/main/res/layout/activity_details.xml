@@ -84,13 +84,21 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
 
             <ImageButton
-                android:id="@+id/wishImageButton"
-                android:layout_width="0dp"
+                android:id="@+id/wishNotImageButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_bookmark_empty_vec"
                 android:contentDescription="@string/add_to_wishlist"/>
+
+            <ImageButton
+                android:id="@+id/wishImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_bookmark_filled_vec"
+                android:contentDescription="@string/remove_from_wishlist"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <TextView

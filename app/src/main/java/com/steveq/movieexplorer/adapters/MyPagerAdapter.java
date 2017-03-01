@@ -20,7 +20,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter implements PagerSliding
     private static int NUM_FRAGMENTS = 4;
     private ArrayList<Fragment> fragmentsPoll;
     private int icons[] = {R.drawable.ic_leaf_vec, R.drawable.ic_star_vec,
-                            R.drawable.ic_filter_vec, R.drawable.ic_bookmark_filled_vec};
+                            R.drawable.ic_filter_vec, R.drawable.ic_bookmark_strip_vec};
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);

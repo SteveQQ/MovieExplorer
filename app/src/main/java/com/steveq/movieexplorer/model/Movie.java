@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -15,26 +16,32 @@ import java.util.List;
 public class Movie implements Serializable{
     @DatabaseField(id = true)
     int id;
+
     @DatabaseField
     String poster_path;
+
     @DatabaseField
     String overview;
+
     @DatabaseField
     Date release_date;
+
     @DatabaseField
     String title;
 
     List<Integer> genre_ids;
+
+    @DatabaseField
+    int genre;
+
     @DatabaseField
     double vote_average;
-    @DatabaseField
-    Integer genre;
 
-    public Integer getGenre() {
+    public int getGenre() {
         return genre;
     }
 
-    public void setGenre(Integer genre) {
+    public void setGenre(int genre) {
         this.genre = genre;
     }
 
@@ -43,7 +50,6 @@ public class Movie implements Serializable{
     }
 
     public void setGenre_ids(List<Integer> genre_ids) {
-        setGenre(genre_ids.get(0));
         this.genre_ids = genre_ids;
     }
 

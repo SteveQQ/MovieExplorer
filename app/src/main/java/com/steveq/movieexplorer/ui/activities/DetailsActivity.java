@@ -1,6 +1,7 @@
 package com.steveq.movieexplorer.ui.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,12 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.CloseableIterable;
+import com.j256.ormlite.dao.CloseableIterator;
 import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Movie;
 import com.steveq.movieexplorer.ui.fragments.ImagesGridAdapter;
+
+import java.sql.SQLException;
+import java.util.Iterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.ratingTextView) TextView ratingTextView;
     @BindView(R.id.overviewTextView) TextView overviewTextView;
     @BindView(R.id.wishImageButton) ImageButton wishImageButton;
+    @BindView(R.id.wishNotImageButton) ImageButton wishNotImageButton;
 
     private Movie theMovie;
 
@@ -50,20 +57,23 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void initWishToogle() {
         if(DbOperationManager.getInstance(this).isWished(theMovie.getId())){
-            wishImageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_filled_vec));
+            wishImageButton.setVisibility(View.VISIBLE);
+            wishNotImageButton.setVisibility(View.GONE);
         }
     }
 
+    @OnClick(R.id.wishNotImageButton)
+    public void wishNotToggle(View v){
+        wishNotImageButton.setVisibility(View.GONE);
+        wishImageButton.setVisibility(View.VISIBLE);
+        DbOperationManager.getInstance(this).addWish(theMovie);
+    }
+
     @OnClick(R.id.wishImageButton)
-    public void wishToggle(){
-        if(wishImageButton.getDrawable().getConstantState() ==
-                ContextCompat.getDrawable(this, R.drawable.ic_bookmark_empty_vec).getConstantState()){
-            wishImageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_filled_vec));
-            DbOperationManager.getInstance(this).addWish(theMovie);
-        } else {
-            wishImageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark_empty_vec));
-            DbOperationManager.getInstance(this).removeWish(theMovie.getId());
-        }
+    public void wishToggle(View v){
+        wishImageButton.setVisibility(View.GONE);
+        wishNotImageButton.setVisibility(View.VISIBLE);
+        DbOperationManager.getInstance(this).removeWish(theMovie.getId());
     }
 
     public void injectPoster(){
@@ -81,7 +91,12 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void injectInfo(){
         titleTextView.setText(theMovie.getTitle());
-        genreTextView.setText(Genre.of(theMovie.getGenre_ids().get(0)).toString().toLowerCase());
+
+        if(theMovie.getGenre() >= 0) {
+            genreTextView.setText(Genre.of(theMovie.getGenre()).toString().toLowerCase());
+        } else {
+            genreTextView.setText(getResources().getString(R.string.unknown_genre));
+        }
         ratingTextView.setText(String.valueOf(theMovie.getVote_average()));
         overviewTextView.setText(theMovie.getOverview());
     }

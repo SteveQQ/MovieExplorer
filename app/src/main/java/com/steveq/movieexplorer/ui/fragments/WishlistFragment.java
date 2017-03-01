@@ -8,12 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.steveq.movieexplorer.R;
+import com.steveq.movieexplorer.db.DbOperationManager;
+import com.steveq.movieexplorer.model.Movie;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WishlistFragment extends Fragment {
+public class WishlistFragment extends BaseFragment {
 
+    public ImagesGridAdapter mAdapter;
 
     public WishlistFragment() {
         // Required empty public constructor
@@ -24,7 +29,17 @@ public class WishlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wishlist, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        List<Movie> wishes = DbOperationManager.getInstance(getContext()).getWishes();
+        mAdapter = new ImagesGridAdapter(getActivity(), wishes);
+        gridView.setAdapter(mAdapter);
+        return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        List<Movie> movs = DbOperationManager.getInstance(getContext()).getWishes();
+        gridView.setAdapter(new ImagesGridAdapter(getActivity(), movs));
+    }
 }

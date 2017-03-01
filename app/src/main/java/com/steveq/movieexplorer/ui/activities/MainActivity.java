@@ -3,6 +3,7 @@ package com.steveq.movieexplorer.ui.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +27,13 @@ import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.adapters.MyPagerAdapter;
 import com.steveq.movieexplorer.api.KeywordsCallback;
 import com.steveq.movieexplorer.api.TmdbManager;
+import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Keyword;
 import com.steveq.movieexplorer.model.KeywordsOutput;
+import com.steveq.movieexplorer.model.Movie;
+import com.steveq.movieexplorer.ui.fragments.ImagesGridAdapter;
+import com.steveq.movieexplorer.ui.fragments.WishlistFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,7 +85,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
 //        });
     }
 
-//    @OnTextChanged(R.id.keywordsEditText) void completion(){
+    private List<Fragment> getCurrentVisible(){
+        List<Fragment> frags = getSupportFragmentManager().getFragments();
+        List<Fragment> visibleFrags = new ArrayList<>();
+        if(frags != null) {
+            for (Fragment f : frags) {
+                if (f.isVisible()) {
+                    visibleFrags.add(f);
+                }
+            }
+        }
+        return visibleFrags;
+    }
+
+    //    @OnTextChanged(R.id.keywordsEditText) void completion(){
 //        StringBuilder builder = new StringBuilder();
 //        builder.append(keywordsEditText.getText().toString());
 //        if(builder.length() > 1){
@@ -115,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
                 return false;
             }
         });
+        searchView.clearFocus();
+        searchView.setFocusable(false);
 
         return true;
     }

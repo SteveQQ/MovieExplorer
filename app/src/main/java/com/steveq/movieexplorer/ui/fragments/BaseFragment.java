@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.query.In;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.api.TmdbManager;
+import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Movie;
 import com.steveq.movieexplorer.model.MoviesOutput;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class BaseFragment extends Fragment implements Callback<MoviesOutput> {
     private TmdbManager mTmdbManager;
 
     @BindView(R.id.gridView)
-    GridView gridView;
+    public GridView gridView;
 
     public BaseFragment() {
         // Required empty public constructor
@@ -67,11 +71,19 @@ public class BaseFragment extends Fragment implements Callback<MoviesOutput> {
     @Override
     public void onResponse(Call<MoviesOutput> call, Response<MoviesOutput> response) {
         Log.d(TAG, "Request Completed!");
-        List<String> urls = new ArrayList<>();
-//        for(Movie m : response.body().getResults()){
-//            urls.add(BASE_IMAGE_URL + m.getPoster_path());
-//        }
-        gridView.setAdapter(new ImagesGridAdapter(getContext(), response.body().getResults()));
+        gridView.setAdapter(new ImagesGridAdapter(getActivity(),
+                addGenreInfo(response.body().getResults())));
+    }
+
+    private List<Movie> addGenreInfo(List<Movie> movs){
+        for(Movie m : movs){
+            if(m.getGenre_ids().size() > 0) {
+                m.setGenre(m.getGenre_ids().get(0));
+            } else {
+                m.setGenre(-1);
+            }
+        }
+        return movs;
     }
 
     @Override

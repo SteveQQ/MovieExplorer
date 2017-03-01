@@ -11,4 +11,6 @@
     <string name="rating">Rating</string>
     <string name="overview">Overview</string>
     <string name="add_to_wishlist">add to wishlist</string>
+    <string name="unknown_genre">Unknown Genre</string>
+    <string name="remove_from_wishlist">remove_wish</string>
 </resources>

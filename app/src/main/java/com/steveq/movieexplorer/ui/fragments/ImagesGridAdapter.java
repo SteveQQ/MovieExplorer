@@ -1,8 +1,10 @@
 package com.steveq.movieexplorer.ui.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,12 +20,16 @@ import java.util.List;
 public class ImagesGridAdapter extends BaseAdapter {
     public static final String SELECTED_MOVIE = "SELECTED MOVIE";
     public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300";
-    private Context mContext;
-    private final List<Movie> movies;
+    private Activity mContext;
+    private List<Movie> movies;
 
-    public ImagesGridAdapter(Context context, List<Movie> urls) {
+    public ImagesGridAdapter(Activity context, List<Movie> urls) {
         mContext = context;
         this.movies = urls;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     @Override
@@ -54,11 +60,14 @@ public class ImagesGridAdapter extends BaseAdapter {
 
         String url = (String) getItem(position);
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
         Picasso.with(mContext)
                 .load(url)
                 .placeholder(R.drawable.ic_load_vec)
                 .error(R.drawable.ic_error_vec)
-                .resize(parent.getWidth()/3, (int)((parent.getWidth()/3)*1.5))
+                .resize(metrics.widthPixels/3, (int)((metrics.widthPixels/3)*1.5))
                 .centerCrop()
                 .into(imageView);
 
