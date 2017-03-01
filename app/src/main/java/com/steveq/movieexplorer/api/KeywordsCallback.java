@@ -1,10 +1,13 @@
 package com.steveq.movieexplorer.api;
 
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.steveq.movieexplorer.model.KeywordsOutput;
+import com.steveq.movieexplorer.ui.activities.MainActivity;
 import com.steveq.movieexplorer.ui.activities.MainActivityView;
+import com.steveq.movieexplorer.ui.fragments.FilterMoviesFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,13 +18,13 @@ public class KeywordsCallback implements Callback<KeywordsOutput> {
     private MainActivityView mMainActivityView;
     public static KeywordsOutput currentKeywordsOutput;
     private static KeywordsCallback instance;
-    private KeywordsCallback(MainActivityView presenter){
-        mMainActivityView = presenter;
+    private KeywordsCallback(){
+        //mMainActivityView = presenter;
     }
 
-    public static KeywordsCallback getInstance(MainActivityView view){
+    public static KeywordsCallback getInstance(){
         if(instance == null){
-            instance = new KeywordsCallback(view);
+            instance = new KeywordsCallback();
         }
         return instance;
     }
@@ -30,7 +33,8 @@ public class KeywordsCallback implements Callback<KeywordsOutput> {
     public void onResponse(Call<KeywordsOutput> call, Response<KeywordsOutput> response) {
         Log.d(TAG, "Request Completed!");
         currentKeywordsOutput = response.body();
-        mMainActivityView.updateAutoCompletion();
+        //mMainActivityView.updateAutoCompletion();
+        ((FilterMoviesFragment)MainActivity.fragmentsPoll.get(2)).updateAutoCompletion();
     }
 
     @Override

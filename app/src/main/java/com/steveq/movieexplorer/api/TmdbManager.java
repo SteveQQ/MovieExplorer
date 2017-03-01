@@ -69,7 +69,7 @@ public class TmdbManager {
         Call<KeywordsOutput> call = mService.getService().
                 getAvailableKeywords(str);
 
-        call.enqueue(KeywordsCallback.getInstance((MainActivityView) mActivity));
+        call.enqueue(KeywordsCallback.getInstance());
     }
 
     public void getSearchedData(String str){

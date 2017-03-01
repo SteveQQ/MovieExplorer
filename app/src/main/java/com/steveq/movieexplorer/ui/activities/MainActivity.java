@@ -50,11 +50,9 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 
-public class MainActivity extends AppCompatActivity implements MainActivityView{
+public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private TmdbManager mTmdbManager;
-    private String selectedKeywords = "";
     public FragmentStatePagerAdapter pagerAdapter;
     public static ArrayList<Fragment> fragmentsPoll = new ArrayList<>(Arrays.asList(new NewestMoviesFragment(),
             new PopularMoviesFragment(),
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        mTmdbManager = new TmdbManager(this);
 
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -79,19 +76,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         tabStrip.setViewPager(viewPager);
         setSupportActionBar(toolbar);
 
-//        keywordsEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.d(TAG, "selected: " + position);
-//                StringBuilder builder = new StringBuilder();
-//                builder.append(selectedKeywords);
-//                builder.append(keywordsEditText.getText().toString());
-//                builder.append(",");
-//                selectedKeywords = builder.toString();
-//                keywordsTextView.setText(selectedKeywords);
-//                keywordsEditText.setText("");
-//            }
-//        });
+//
     }
 
     private List<Fragment> getCurrentVisible(){
@@ -103,17 +88,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         }
         return visibleFrags;
     }
-
-    //    @OnTextChanged(R.id.keywordsEditText) void completion(){
-//        StringBuilder builder = new StringBuilder();
-//        builder.append(keywordsEditText.getText().toString());
-//        if(builder.length() > 1){
-//            String[] tempStr = builder.toString().split(",");
-//            mTmdbManager.getAvailableKeywords(tempStr[tempStr.length-1]);
-//        }
-//        Log.d(TAG, "completion");
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,18 +117,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
         searchView.setFocusable(false);
 
         return true;
-    }
-
-    @Override
-    public void updateAutoCompletion() {
-        ArrayList<String> keyStrings = new ArrayList<>();
-        for(Keyword k : KeywordsCallback.currentKeywordsOutput.results){
-            keyStrings.add(k.getName());
-        }
-        String[] keywords = keyStrings.toArray(new String[]{});
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, keywords);
-//        keywordsEditText.setAdapter(adapter);
-//        keywordsEditText.showDropDown();
     }
 
     @Override
