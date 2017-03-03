@@ -5,16 +5,13 @@ import android.app.Activity;
 
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Keyword;
-import com.steveq.movieexplorer.model.KeywordsOutput;
-import com.steveq.movieexplorer.model.MoviesOutput;
-import com.steveq.movieexplorer.ui.activities.MainActivityView;
-
-import org.json.JSONObject;
+import com.steveq.movieexplorer.model.KeywordsRoot;
+import com.steveq.movieexplorer.model.MoviesRoot;
+import com.steveq.movieexplorer.ui.fragments.FilterMoviesFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -33,8 +30,8 @@ public class TmdbManager {
         mService = new TmdbService(context);
     }
 
-    public void getNewestMovies(Callback<MoviesOutput> callback){
-        Call<MoviesOutput> call = mService.getService().
+    public void getNewestMovies(Callback<MoviesRoot> callback){
+        Call<MoviesRoot> call = mService.getService().
                 getNewestMovies(
                         getShiftedBackDate(30),
                         getCurrentDate(),
@@ -43,33 +40,33 @@ public class TmdbManager {
         call.enqueue(callback);
     }
 
-    public void getPopularMovies(Callback<MoviesOutput> callback){
+    public void getPopularMovies(Callback<MoviesRoot> callback){
         Map<String, String> params = new HashMap<>();
         params.put("sort_by", "popularity.desc");
         params.put("primary_release_year", getCurrentDate().substring(0, 4));
         params.put("page", "1");
 
-        Call<MoviesOutput> call = mService.getService()
+        Call<MoviesRoot> call = mService.getService()
                                     .getPopularMovies(params);
         call.enqueue(callback);
     }
 
-    public void getFilteredParams(int year, Genre genre, String[] keywords, Callback<MoviesOutput> callback){
+    public void getFilteredParams(int year, Genre genre, String[] keywords, Callback<MoviesRoot> callback){
         Map<String, String> params = new HashMap<>();
         params.put("primary_release_year", String.valueOf(year));
         params.put("with_genres", String.valueOf(genre.getId()));
-        params.put("with_keywords", prepareKeywords(keywords));
-
-        Call<MoviesOutput> call = mService.getService()
+        if(!keywords[0].equals("")) {
+            params.put("with_keywords", prepareKeywords(keywords));
+        }
+        Call<MoviesRoot> call = mService.getService()
                                     .getFilteredMovies(params);
         call.enqueue(callback);
     }
 
-    public void getAvailableKeywords(String str){
-        Call<KeywordsOutput> call = mService.getService().
+    public void getAvailableKeywords(String str, Callback<KeywordsRoot> callback){
+        Call<KeywordsRoot> call = mService.getService().
                 getAvailableKeywords(str);
-
-        call.enqueue(KeywordsCallback.getInstance());
+        call.enqueue(callback);
     }
 
     public void getSearchedData(String str){
@@ -92,7 +89,7 @@ public class TmdbManager {
     }
 
     private int getKeywordId(String s) {
-        for(Keyword k : KeywordsCallback.currentKeywordsOutput.results){
+        for(Keyword k : FilterMoviesFragment.checker.currentKeywordsOutput.results){
             if(k.getName().equals(s)){
                 return k.getId();
             }

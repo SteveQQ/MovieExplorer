@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MoviesOutput {
+public class MoviesRoot {
     List<Movie> results;
 
     public List<Movie> getResults() {

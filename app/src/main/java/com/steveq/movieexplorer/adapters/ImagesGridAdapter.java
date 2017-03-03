@@ -1,4 +1,4 @@
-package com.steveq.movieexplorer.ui.fragments;
+package com.steveq.movieexplorer.adapters;
 
 
 import android.app.Activity;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.model.Movie;
@@ -69,6 +71,8 @@ public class ImagesGridAdapter extends BaseAdapter {
                 .error(R.drawable.ic_error_vec)
                 .resize(metrics.widthPixels/3, (int)((metrics.widthPixels/3)*1.5))
                 .centerCrop()
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .into(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {

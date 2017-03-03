@@ -1,8 +1,6 @@
 package com.steveq.movieexplorer.ui.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,21 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.j256.ormlite.dao.CloseableIterable;
-import com.j256.ormlite.dao.CloseableIterator;
 import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Movie;
-import com.steveq.movieexplorer.ui.fragments.ImagesGridAdapter;
-
-import java.sql.SQLException;
-import java.util.Iterator;
+import com.steveq.movieexplorer.adapters.ImagesGridAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

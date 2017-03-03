@@ -14,16 +14,16 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.adapters.MyPagerAdapter;
-import com.steveq.movieexplorer.api.KeywordsCallback;
 import com.steveq.movieexplorer.api.TmdbManager;
 import com.steveq.movieexplorer.model.Genre;
 import com.steveq.movieexplorer.model.Keyword;
-import com.steveq.movieexplorer.model.MoviesOutput;
+import com.steveq.movieexplorer.model.KeywordsRoot;
+import com.steveq.movieexplorer.model.MoviesRoot;
 import com.steveq.movieexplorer.ui.activities.MainActivity;
-import com.steveq.movieexplorer.ui.activities.MainActivityView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,18 +41,35 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilterMoviesFragment extends Fragment implements Callback<MoviesOutput>{
+public class FilterMoviesFragment extends Fragment implements Callback<MoviesRoot>{
 
 
     private static final String TAG = FilterMoviesFragment.class.getSimpleName();
     private TmdbManager mTmdbManager;
     private String selectedKeywords = "";
+    public static KeywordsChecker checker;
 
     @BindView(R.id.yearSpinner) Spinner yearSpinner;
     @BindView(R.id.genreSpinner) Spinner genreSpinner;
     @BindView(R.id.keywordsAutoComplete) AutoCompleteTextView keywordsAutoComplete;
     @BindView(R.id.keywordsTextView) TextView keywordsTextView;
     @BindView(R.id.filterFab) FloatingActionButton filterFab;
+
+    public class KeywordsChecker implements Callback<KeywordsRoot>{
+
+        public KeywordsRoot currentKeywordsOutput;
+
+        @Override
+        public void onResponse(Call<KeywordsRoot> call, Response<KeywordsRoot> response) {
+            currentKeywordsOutput = response.body();
+            updateAutoCompletion();
+        }
+
+        @Override
+        public void onFailure(Call<KeywordsRoot> call, Throwable t) {
+            Toast.makeText(getContext(), "Try to connect to internet", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public FilterMoviesFragment() {
         // Required empty public constructor
@@ -61,13 +79,13 @@ public class FilterMoviesFragment extends Fragment implements Callback<MoviesOut
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTmdbManager = new TmdbManager(getActivity());
+        checker = new KeywordsChecker();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "onCreateView");
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_filter_movies, container, false);
         ButterKnife.bind(this, viewGroup);
         populateSpinners();
@@ -85,7 +103,6 @@ public class FilterMoviesFragment extends Fragment implements Callback<MoviesOut
                 keywordsAutoComplete.setText("");
             }
         });
-
         return viewGroup;
     }
 
@@ -97,39 +114,39 @@ public class FilterMoviesFragment extends Fragment implements Callback<MoviesOut
                 selectedKeywords.split(","),
                 this
         );
-
     }
+
+
 
     @OnTextChanged(R.id.keywordsAutoComplete) void completion(){
         StringBuilder builder = new StringBuilder();
         builder.append(keywordsAutoComplete.getText().toString());
         if(builder.length() > 1){
             String[] tempStr = builder.toString().split(",");
-            mTmdbManager.getAvailableKeywords(tempStr[tempStr.length-1]);
+            mTmdbManager.getAvailableKeywords(tempStr[tempStr.length-1], checker);
         }
         Log.d(TAG, "completion");
     }
 
-
     @Override
-    public void onResponse(Call<MoviesOutput> call, Response<MoviesOutput> response) {
+    public void onResponse(Call<MoviesRoot> call, Response<MoviesRoot> response) {
         Log.d(TAG, "Request Completed!");
 
-        ((MainActivity)getActivity()).filteredMovies = response.body().getResults();
+        ((MainActivity)getActivity()).filteredMovies = BaseFragment.addGenreInfo(response.body().getResults());
 
-        MainActivity.fragmentsPoll.set(2, new FilteredMoviesFragment());
+        MyPagerAdapter.fragmentsPoll.set(2, new FilteredMoviesFragment());
         ((MainActivity)getActivity()).pagerAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onFailure(Call<MoviesOutput> call, Throwable t) {
+    public void onFailure(Call<MoviesRoot> call, Throwable t) {
         Log.d(TAG, "Request Failed!");
         Log.d(TAG, call.request().url().toString());
     }
 
     public void updateAutoCompletion() {
         ArrayList<String> keyStrings = new ArrayList<>();
-        for(Keyword k : KeywordsCallback.currentKeywordsOutput.results){
+        for(Keyword k : checker.currentKeywordsOutput.results){
             keyStrings.add(k.getName());
         }
         String[] keywords = keyStrings.toArray(new String[]{});

@@ -1,0 +1,24 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="0dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@android:id/empty"
+        android:text="@string/no_data"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center"/>
+</android.support.v4.widget.SwipeRefreshLayout>

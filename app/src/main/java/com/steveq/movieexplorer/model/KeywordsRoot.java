@@ -4,7 +4,7 @@ package com.steveq.movieexplorer.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeywordsOutput {
+public class KeywordsRoot {
 
     public List<Keyword> results;
 

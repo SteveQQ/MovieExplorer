@@ -7,8 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.steveq.movieexplorer.model.MoviesOutput;
-import com.steveq.movieexplorer.model.PersonOutput;
+import com.steveq.movieexplorer.model.MoviesRoot;
+import com.steveq.movieexplorer.model.PersonRoot;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,14 +60,13 @@ public class DispatcherCallback implements Callback<ResponseBody> {
 
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-        Log.d(TAG, "Response Correct");
         String body = getResponseBody(response.body());
         MediaType mt = getMediaType(body);
         Gson gson = new Gson();
         if(mt == MediaType.MOVIE){
-            MoviesOutput mo = gson.fromJson(body, MoviesOutput.class);
+            MoviesRoot mo = gson.fromJson(body, MoviesRoot.class);
         } else if (mt == MediaType.PERSON){
-            PersonOutput po = gson.fromJson(body, PersonOutput.class);
+            PersonRoot po = gson.fromJson(body, PersonRoot.class);
         }
     }
 

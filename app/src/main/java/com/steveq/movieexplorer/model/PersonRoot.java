@@ -3,7 +3,7 @@ package com.steveq.movieexplorer.model;
 
 import java.util.ArrayList;
 
-public class PersonOutput {
+public class PersonRoot {
     ArrayList<Person> results;
 
     public ArrayList<Person> getResults() {

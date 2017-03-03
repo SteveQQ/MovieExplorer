@@ -80,15 +80,15 @@
             android:layout_marginTop="8dp"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/filterFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_filter_vec"
+            app:layout_anchor="@id/mainView"
+            android:layout_margin="16dp"
+            app:fabSize="normal"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_gravity="bottom|right"/>
     </LinearLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/filterFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_filter_vec"
-        app:layout_anchor="@id/mainView"
-        android:layout_margin="16dp"
-        app:fabSize="normal"
-        app:layout_anchorGravity="bottom|right|end"
-        android:layout_gravity="bottom|right"/>
 </android.support.design.widget.CoordinatorLayout>

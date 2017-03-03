@@ -1,34 +1,31 @@
 package com.steveq.movieexplorer.api;
 
 
-import com.steveq.movieexplorer.model.KeywordsOutput;
-import com.steveq.movieexplorer.model.MoviesOutput;
-
-import org.json.JSONObject;
+import com.steveq.movieexplorer.model.KeywordsRoot;
+import com.steveq.movieexplorer.model.MoviesRoot;
 
 import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface TmdbAPI {
     @GET("discover/movie")
-    Call<MoviesOutput> getNewestMovies(@Query("release_date.gte") String release_date_gte,
-                                       @Query("release_date.lte") String release_date_lte,
-                                       @Query("page") int page);
+    Call<MoviesRoot> getNewestMovies(@Query("release_date.gte") String release_date_gte,
+                                     @Query("release_date.lte") String release_date_lte,
+                                     @Query("page") int page);
 
     @GET("discover/movie")
-    Call<MoviesOutput> getPopularMovies(@QueryMap Map<String, String> params);
+    Call<MoviesRoot> getPopularMovies(@QueryMap Map<String, String> params);
 
     @GET("discover/movie")
-    Call<MoviesOutput> getFilteredMovies(@QueryMap Map<String, String> params);
+    Call<MoviesRoot> getFilteredMovies(@QueryMap Map<String, String> params);
 
     @GET("search/keyword")
-    Call<KeywordsOutput> getAvailableKeywords(@Query("query") String query);
+    Call<KeywordsRoot> getAvailableKeywords(@Query("query") String query);
 
     @GET("search/multi")
     Call<ResponseBody> getSearchedData(@Query(value="query", encoded = true) String query);

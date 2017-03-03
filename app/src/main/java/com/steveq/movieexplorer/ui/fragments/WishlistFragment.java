@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.steveq.movieexplorer.R;
+import com.steveq.movieexplorer.adapters.ImagesGridAdapter;
 import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Movie;
 
@@ -24,16 +24,23 @@ public class WishlistFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        View view = super.onCreateView(inflater, container, savedInstanceState);
+//        List<Movie> wishes = DbOperationManager.getInstance(getContext()).getWishes();
+//        mAdapter = new ImagesGridAdapter(getActivity(), wishes);
+//        gridView.setAdapter(mAdapter);
+//        return view;
+//    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+    void execution() {
         List<Movie> wishes = DbOperationManager.getInstance(getContext()).getWishes();
         mAdapter = new ImagesGridAdapter(getActivity(), wishes);
         gridView.setAdapter(mAdapter);
-        return view;
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
