@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".ui.activities.DetailsActivity">
         </activity>
+        <activity android:name=".ui.activities.GlobalSearchResultActivity">
+        </activity>
     </application>
 
 </manifest>

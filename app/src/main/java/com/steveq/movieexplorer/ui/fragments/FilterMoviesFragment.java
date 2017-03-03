@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilterMoviesFragment extends Fragment implements Callback<MoviesRoot>{
+public class FilterMoviesFragment extends Fragment implements Callback<MoviesRoot>, SwipeRefreshLayout.OnRefreshListener{
 
 
     private static final String TAG = FilterMoviesFragment.class.getSimpleName();
@@ -54,6 +55,8 @@ public class FilterMoviesFragment extends Fragment implements Callback<MoviesRoo
     @BindView(R.id.keywordsAutoComplete) AutoCompleteTextView keywordsAutoComplete;
     @BindView(R.id.keywordsTextView) TextView keywordsTextView;
     @BindView(R.id.filterFab) FloatingActionButton filterFab;
+    @BindView(R.id.filterMoviesRoot)
+    SwipeRefreshLayout swipeFilter;
 
     public class KeywordsChecker implements Callback<KeywordsRoot>{
 
@@ -101,9 +104,21 @@ public class FilterMoviesFragment extends Fragment implements Callback<MoviesRoo
                 selectedKeywords = builder.toString();
                 keywordsTextView.setText(selectedKeywords);
                 keywordsAutoComplete.setText("");
+                keywordsAutoComplete.dismissDropDown();
+                keywordsTextView.clearFocus();
             }
         });
+        swipeFilter.setOnRefreshListener(this);
         return viewGroup;
+    }
+
+    @Override
+    public void onRefresh() {
+        selectedKeywords = "";
+        keywordsTextView.setText("");
+        yearSpinner.setSelection(0);
+        genreSpinner.setSelection(0);
+        swipeFilter.setRefreshing(false);
     }
 
     @OnClick(R.id.filterFab)
