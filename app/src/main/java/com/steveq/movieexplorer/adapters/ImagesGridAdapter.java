@@ -71,8 +71,6 @@ public class ImagesGridAdapter extends BaseAdapter {
                 .error(R.drawable.ic_error_vec)
                 .resize(metrics.widthPixels/3, (int)((metrics.widthPixels/3)*1.5))
                 .centerCrop()
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .into(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {

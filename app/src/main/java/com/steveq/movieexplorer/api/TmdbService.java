@@ -29,7 +29,7 @@ public class TmdbService {
     public TmdbAPI getService(){
         Gson gson = new GsonBuilder()
                             .setLenient()
-                            .setDateFormat("yyyy-MM-dd")
+                            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                             .setPrettyPrinting()
                             .create();
 

@@ -24,7 +24,7 @@ public class Movie implements Serializable{
     String overview;
 
     @DatabaseField
-    Date release_date;
+    String release_date;
 
     @DatabaseField
     String title;
@@ -36,6 +36,28 @@ public class Movie implements Serializable{
 
     @DatabaseField
     double vote_average;
+
+    @DatabaseField
+    String name;
+
+    @DatabaseField
+    String media_type;
+
+    public String getMedia_type() {
+        return media_type;
+    }
+
+    public void setMedia_type(String media_type) {
+        this.media_type = media_type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getGenre() {
         return genre;
@@ -77,11 +99,11 @@ public class Movie implements Serializable{
         this.overview = overview;
     }
 
-    public Date getRelease_date() {
+    public String getRelease_date() {
         return release_date;
     }
 
-    public void setRelease_date(Date release_date) {
+    public void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
 

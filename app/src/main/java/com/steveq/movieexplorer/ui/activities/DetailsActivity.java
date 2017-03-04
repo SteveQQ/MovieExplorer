@@ -81,14 +81,33 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void injectInfo(){
-        titleTextView.setText(theMovie.getTitle());
+        if("tv".equals(theMovie.getMedia_type())){
+            titleTextView.setText(theMovie.getName());
+        } else {
+            titleTextView.setText(theMovie.getTitle());
+        }
 
         if(theMovie.getGenre() >= 0) {
-            genreTextView.setText(Genre.of(theMovie.getGenre()).toString().toLowerCase());
+            for(int i=0; i < theMovie.getGenre_ids().size(); i++){
+                if(genreExists(theMovie.getGenre_ids().get(i))){
+                    genreTextView.setText(Genre.of(theMovie.getGenre_ids().get(i)).toString().toLowerCase());
+                    break;
+                }
+            }
         } else {
             genreTextView.setText(getResources().getString(R.string.unknown_genre));
         }
         ratingTextView.setText(String.valueOf(theMovie.getVote_average()));
         overviewTextView.setText(theMovie.getOverview());
+    }
+
+    private boolean genreExists(Integer num) {
+        Genre[] genres = Genre.values();
+        for(Genre g : genres){
+            if(num == g.getId()){
+                return true;
+            }
+        }
+        return false;
     }
 }

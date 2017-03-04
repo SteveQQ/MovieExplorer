@@ -69,11 +69,11 @@ public class TmdbManager {
         call.enqueue(callback);
     }
 
-    public void getSearchedData(String str){
+    public void getSearchedData(String str, Callback<ResponseBody> callback){
         Call<ResponseBody> call = mService.getService()
                                     .getSearchedData(str);
 
-        call.enqueue(DispatcherCallback.getInstance());
+        call.enqueue(callback);
     }
 
     private String prepareKeywords(String[] keywords) {

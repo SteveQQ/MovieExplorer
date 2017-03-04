@@ -17,4 +17,6 @@
     <string name="genre_label">Genre</string>
     <string name="keywords_label">Keywords</string>
     <string name="no_data">No data to present</string>
+    <string name="search_for_keywords">Search for keywords:</string>
+    <string name="search">Search for phrase :</string>
 </resources>

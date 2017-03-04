@@ -2,6 +2,7 @@ package com.steveq.movieexplorer.ui.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String QUERY_STRING = "QUERY_STRING";
     public FragmentStatePagerAdapter pagerAdapter;
 
     public List<Movie> filteredMovies;
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, GlobalSearchResultActivity.class);
+                intent.putExtra(QUERY_STRING, query);
+                MainActivity.this.startActivity(intent);
                 searchView.setQuery("", false);
                 return false;
             }
