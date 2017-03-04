@@ -1,17 +1,17 @@
 package com.steveq.movieexplorer.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -20,13 +20,10 @@ import com.google.gson.JsonParser;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.adapters.ImagesGridAdapter;
 import com.steveq.movieexplorer.adapters.PersonGridAdapter;
-import com.steveq.movieexplorer.api.DispatcherCallback;
 import com.steveq.movieexplorer.api.TmdbManager;
-import com.steveq.movieexplorer.db.DbOperationManager;
 import com.steveq.movieexplorer.model.Movie;
 import com.steveq.movieexplorer.model.MoviesRoot;
 import com.steveq.movieexplorer.model.PersonRoot;
-import com.steveq.movieexplorer.ui.fragments.GlobalSearchFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,16 +36,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GlobalSearchResultActivity extends AppCompatActivity implements Callback<ResponseBody> {
+public class GlobalSearchResultActivity extends AppCompatActivity implements Callback<ResponseBody>, SwipeRefreshLayout.OnRefreshListener{
 
     private TmdbManager mTmdbManager;
     private String phrase;
+
+    @Override
+    public void onRefresh() {
+        mTmdbManager.getSearchedData(phrase, this);
+    }
+
     enum MediaType {MOVIE, PERSON}
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.phraseTextView) TextView phraseTextView;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.globalGridView) GridView globalGridView;
+    @BindView(R.id.globalRefresh) SwipeRefreshLayout globalRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
         mTmdbManager.getSearchedData(phrase, this);
         progressBar.setVisibility(View.VISIBLE);
         globalGridView.setEmptyView(findViewById(android.R.id.empty));
+        globalRefresh.setOnRefreshListener(this);
         setSupportActionBar(toolbar);
     }
 
@@ -77,6 +82,9 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mTmdbManager.getSearchedData(query, GlobalSearchResultActivity.this);
+                progressBar.setVisibility(View.VISIBLE);
+                globalGridView.setEmptyView(findViewById(android.R.id.empty));
                 searchView.setQuery("", false);
                 return false;
             }
@@ -88,6 +96,16 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
         });
         searchView.clearFocus();
         searchView.setFocusable(false);
+
+        MenuItem aboutItem = menu.findItem(R.id.about);
+        aboutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(GlobalSearchResultActivity.this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
 
         return true;
     }
@@ -123,6 +141,7 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
         progressBar.setVisibility(View.GONE);
+        globalRefresh.setRefreshing(false);
         String body = getResponseBody(response.body());
         GlobalSearchResultActivity.MediaType mt = getMediaType(body);
         Gson gson = new Gson();
@@ -154,5 +173,6 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
     @Override
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         progressBar.setVisibility(View.GONE);
+        globalRefresh.setRefreshing(false);
     }
 }

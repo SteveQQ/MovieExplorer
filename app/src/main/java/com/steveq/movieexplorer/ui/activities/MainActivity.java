@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity{
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, GlobalSearchResultActivity.class);
                 intent.putExtra(QUERY_STRING, query);
                 MainActivity.this.startActivity(intent);
@@ -93,6 +92,16 @@ public class MainActivity extends AppCompatActivity{
         });
         searchView.clearFocus();
         searchView.setFocusable(false);
+
+        MenuItem aboutItem = menu.findItem(R.id.about);
+        aboutItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
 
         return true;
     }

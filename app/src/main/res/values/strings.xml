@@ -22,4 +22,5 @@
     <string name="person_name">Name</string>
     <string name="popularity">Popularity</string>
     <string name="known_for">Known for</string>
+    <string name="attribution">This product uses the TMDb API but is not endorsed or certified by TMDb.</string>
 </resources>

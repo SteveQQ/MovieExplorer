@@ -34,6 +34,8 @@
         </activity>
         <activity android:name=".ui.activities.PersonDetailsActivity">
         </activity>
+        <activity android:name=".ui.activities.AboutActivity">
+        </activity>
     </application>
 
 </manifest>
