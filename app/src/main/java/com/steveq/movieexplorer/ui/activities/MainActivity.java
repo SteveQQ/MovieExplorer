@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.adapters.MyPagerAdapter;
 import com.steveq.movieexplorer.model.Movie;
+import com.steveq.movieexplorer.model.Result;
 import com.steveq.movieexplorer.ui.fragments.FilterMoviesFragment;
 import com.steveq.movieexplorer.ui.fragments.FilteredMoviesFragment;
 

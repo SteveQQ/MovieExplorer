@@ -32,6 +32,8 @@
         </activity>
         <activity android:name=".ui.activities.GlobalSearchResultActivity">
         </activity>
+        <activity android:name=".ui.activities.PersonDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -19,4 +19,7 @@
     <string name="no_data">No data to present</string>
     <string name="search_for_keywords">Search for keywords:</string>
     <string name="search">Search for phrase :</string>
+    <string name="person_name">Name</string>
+    <string name="popularity">Popularity</string>
+    <string name="known_for">Known for</string>
 </resources>

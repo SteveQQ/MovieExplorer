@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -70,7 +72,12 @@ public class DetailsActivity extends AppCompatActivity {
     public void injectPoster(){
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        Log.d("DETAILS", String.valueOf(metrics.widthPixels));
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(metrics.widthPixels/2, (int)((metrics.widthPixels/2)*1.5));
+
+        posterImageView.setLayoutParams(layoutParams);
+        posterImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
         Picasso.with(this)
                 .load(ImagesGridAdapter.BASE_IMAGE_URL + theMovie.getPoster_path())
                 .placeholder(R.drawable.ic_load_vec)
@@ -88,11 +95,15 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         if(theMovie.getGenre() >= 0) {
-            for(int i=0; i < theMovie.getGenre_ids().size(); i++){
-                if(genreExists(theMovie.getGenre_ids().get(i))){
-                    genreTextView.setText(Genre.of(theMovie.getGenre_ids().get(i)).toString().toLowerCase());
-                    break;
+            if(theMovie.getGenre_ids() != null) {
+                for (int i = 0; i < theMovie.getGenre_ids().size(); i++) {
+                    if (genreExists(theMovie.getGenre_ids().get(i))) {
+                        genreTextView.setText(Genre.of(theMovie.getGenre_ids().get(i)).toString().toLowerCase());
+                        break;
+                    }
                 }
+            } else {
+                genreTextView.setText(Genre.of(theMovie.getGenre()).toString().toLowerCase());
             }
         } else {
             genreTextView.setText(getResources().getString(R.string.unknown_genre));

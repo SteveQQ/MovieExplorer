@@ -12,34 +12,35 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.steveq.movieexplorer.R;
-import com.steveq.movieexplorer.model.Movie;
+import com.steveq.movieexplorer.model.Person;
 import com.steveq.movieexplorer.ui.activities.DetailsActivity;
+import com.steveq.movieexplorer.ui.activities.PersonDetailsActivity;
 
 import java.util.List;
 
-public class ImagesGridAdapter extends BaseAdapter {
-    public static final String SELECTED_MOVIE = "SELECTED MOVIE";
+public class PersonGridAdapter extends BaseAdapter {
+    public static final String SELECTED_PERSON = "SELECTED PERSON";
     public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w300";
     private Activity mContext;
-    private List<Movie> movies;
+    private List<Person> persons;
 
-    public ImagesGridAdapter(Activity context, List<Movie> urls) {
+    public PersonGridAdapter(Activity context, List<Person> urls) {
         mContext = context;
-        this.movies = urls;
+        this.persons = urls;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setMovies(List<Person> movies) {
+        this.persons = persons;
     }
 
     @Override
     public int getCount() {
-        return movies.size();
+        return persons.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return BASE_IMAGE_URL + movies.get(position).getPoster_path();
+        return BASE_IMAGE_URL + persons.get(position).getProfile_path();
     }
 
     @Override
@@ -73,8 +74,8 @@ public class ImagesGridAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra(SELECTED_MOVIE, movies.get(position));
+                Intent intent = new Intent(mContext, PersonDetailsActivity.class);
+                intent.putExtra(SELECTED_PERSON, persons.get(position));
                 mContext.startActivity(intent);
             }
         });

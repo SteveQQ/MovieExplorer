@@ -1,9 +1,10 @@
 package com.steveq.movieexplorer.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Person {
+public class Person implements Serializable{
     String profile_path;
     ArrayList<Movie> known_for;
     String name;

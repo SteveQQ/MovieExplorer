@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.steveq.movieexplorer.R;
 import com.steveq.movieexplorer.adapters.ImagesGridAdapter;
+import com.steveq.movieexplorer.adapters.PersonGridAdapter;
 import com.steveq.movieexplorer.api.DispatcherCallback;
 import com.steveq.movieexplorer.api.TmdbManager;
 import com.steveq.movieexplorer.db.DbOperationManager;
@@ -95,9 +96,13 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
         Gson gson = new Gson();
         JsonObject root = new JsonParser().parse(json).getAsJsonObject();
         JsonArray results = root.getAsJsonArray("results");
-        JsonObject controlObject = results.get(0).getAsJsonObject();
-        String mediaType = controlObject.get("media_type").getAsString();
-        return GlobalSearchResultActivity.MediaType.valueOf(mediaType.toUpperCase());
+        if(results.size() > 0) {
+            JsonObject controlObject = results.get(0).getAsJsonObject();
+            String mediaType = controlObject.get("media_type").getAsString();
+            return GlobalSearchResultActivity.MediaType.valueOf(mediaType.toUpperCase());
+        } else {
+            return null;
+        }
     }
 
     public String getResponseBody(ResponseBody response){
@@ -121,12 +126,16 @@ public class GlobalSearchResultActivity extends AppCompatActivity implements Cal
         String body = getResponseBody(response.body());
         GlobalSearchResultActivity.MediaType mt = getMediaType(body);
         Gson gson = new Gson();
-        if(mt == GlobalSearchResultActivity.MediaType.MOVIE){
-            MoviesRoot mo = gson.fromJson(body, MoviesRoot.class);
-            globalGridView.setAdapter(new ImagesGridAdapter(this,
-                    addGenreInfo(mo.getResults())));
-        } else if (mt == GlobalSearchResultActivity.MediaType.PERSON){
-            PersonRoot po = gson.fromJson(body, PersonRoot.class);
+        if(mt != null) {
+            if (mt == GlobalSearchResultActivity.MediaType.MOVIE) {
+                MoviesRoot mo = gson.fromJson(body, MoviesRoot.class);
+                globalGridView.setAdapter(new ImagesGridAdapter(this,
+                        addGenreInfo(mo.getResults())));
+            } else if (mt == GlobalSearchResultActivity.MediaType.PERSON) {
+                PersonRoot po = gson.fromJson(body, PersonRoot.class);
+                globalGridView.setAdapter(new PersonGridAdapter(this,
+                        po.getResults()));
+            }
         }
 
     }
